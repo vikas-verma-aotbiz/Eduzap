@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-slate-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-2">
             <div className="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-200">
               <Zap className="w-6 h-6 text-white" />
@@ -91,19 +91,15 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative pt-40 pb-32 px-4 overflow-hidden">
+    <section className="relative pt-28 pb-32 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-widest mb-8 border border-blue-100">
-              <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
-              The Complete 3-App Ecosystem
-            </div>
-            <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter mb-8 leading-[0.9] max-w-5xl mx-auto">
+            <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter mb-6 leading-[0.9] max-w-5xl mx-auto">
               One Platform. <br />
               <span className="text-blue-600 italic font-serif font-normal">Three Powerful Apps.</span>
             </h1>
@@ -310,7 +306,12 @@ const PortfolioSection = () => {
             <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
               <p className="text-lg font-bold text-slate-900 mb-4 italic">"EduZap has completely changed how we manage our delivery fleet. The 3-app system is seamless."</p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-200 rounded-full"></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100" 
+                  alt="Business Owner" 
+                  className="w-12 h-12 rounded-full object-cover border-2 border-blue-100"
+                  referrerPolicy="no-referrer"
+                />
                 <div>
                   <p className="font-bold text-slate-900">Business Owner</p>
                   <p className="text-sm text-slate-500">Logistics Solutions</p>
