@@ -1,7 +1,6 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Smartphone, 
   Layout, 
   Settings, 
   Users, 
@@ -16,7 +15,10 @@ import {
   Monitor
 } from 'lucide-react';
 
-const Navbar = () => {
+// Aapka Google Form Link (Embedded Version)
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGuyuNxpqw7YQOGoQIlUZr1stA-EEZoqX1FjxirB5GC8OiPg/viewform?embedded=true";
+
+const Navbar = ({ onOpenForm }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -27,14 +29,17 @@ const Navbar = () => {
             <div className="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-200">
               <Zap className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-slate-900">EduZap</span>
+            <span className="text-2xl font-black tracking-tighter text-slate-900">Biz-e-comm</span>
           </div>
           
           <div className="hidden md:flex items-center gap-10">
             <a href="#ecosystem" className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors">Ecosystem</a>
             <a href="#admin" className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors">Admin Panel</a>
             <a href="#features" className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors">Features</a>
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 cursor-pointer">
+            <button 
+              onClick={onOpenForm}
+              className="bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 cursor-pointer"
+            >
               Get Started
             </button>
           </div>
@@ -47,7 +52,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
@@ -57,7 +61,10 @@ const Navbar = () => {
           <a href="#ecosystem" className="block text-lg font-bold text-slate-600">Ecosystem</a>
           <a href="#admin" className="block text-lg font-bold text-slate-600">Admin Panel</a>
           <a href="#features" className="block text-lg font-bold text-slate-600">Features</a>
-          <button className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-200 cursor-pointer">
+          <button 
+            onClick={() => { onOpenForm(); setIsOpen(false); }}
+            className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-200 cursor-pointer"
+          >
             Get Started
           </button>
         </motion.div>
@@ -66,7 +73,7 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => {
+const Hero = ({ onOpenForm }) => {
   const images = [
     "https://aotbiz.com/images/portfolio/eduzap-admin.png",
     "https://aotbiz.com/images/portfolio/eduzap-breadcrumb.png",
@@ -82,14 +89,6 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, [images.length]);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
   return (
     <section className="relative pt-28 pb-32 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -104,14 +103,20 @@ const Hero = () => {
               <span className="text-blue-600 italic font-serif font-normal">Three Powerful Apps.</span>
             </h1>
             <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-              Launch your delivery or marketplace ecosystem with EduZap. You get three fully-functional apps for Users, Merchants, and Drivers, all managed by one powerful admin panel.
+              Launch your delivery or marketplace ecosystem with Biz-e-comm. You get three fully-functional apps for Users, Merchants, and Drivers, all managed by one powerful admin panel.
             </p>
             <div className="flex flex-wrap justify-center gap-5">
-              <button className="bg-blue-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-blue-700 hover:scale-105 transition-all shadow-2xl shadow-blue-200 flex items-center gap-3 cursor-pointer">
+              <button 
+                onClick={onOpenForm}
+                className="bg-blue-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-blue-700 hover:scale-105 transition-all shadow-2xl shadow-blue-200 flex items-center gap-3 cursor-pointer"
+              >
                 Launch Your App
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="bg-white text-slate-900 border border-slate-200 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center gap-3 cursor-pointer">
+              <button 
+                onClick={onOpenForm}
+                className="bg-white text-slate-900 border border-slate-200 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center gap-3 cursor-pointer"
+              >
                 View Demo
               </button>
             </div>
@@ -133,40 +138,10 @@ const Hero = () => {
                 transition={{ duration: 0.8, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <img 
-                  src={img} 
-                  alt={`Slide ${index}`} 
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
+                <img src={img} alt={`Slide ${index}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
               </motion.div>
             ))}
-
-            {/* Navigation Buttons */}
-            <button 
-              onClick={prevSlide}
-              className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
-            >
-              <ArrowRight className="w-6 h-6 rotate-180" />
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
-            >
-              <ArrowRight className="w-6 h-6" />
-            </button>
-
-            {/* Dots */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
-              {images.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  className={`w-3 h-3 rounded-full transition-all cursor-pointer ${currentIndex === i ? 'bg-blue-600 w-8' : 'bg-white/50 hover:bg-white'}`}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </div>
@@ -237,7 +212,6 @@ const AdminSection = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <div className="order-2 lg:order-1 relative">
-            <div className="absolute -inset-10 bg-blue-500/10 rounded-full blur-[100px] -z-10"></div>
             <div className="bg-slate-900 rounded-[3rem] p-4 shadow-2xl border border-slate-800">
               <img 
                 src="https://aotbiz.com/images/portfolio/eduzap-admin.png" 
@@ -246,35 +220,17 @@ const AdminSection = () => {
                 referrerPolicy="no-referrer"
               />
             </div>
-            {/* Floating UI Element */}
-            <div className="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 hidden xl:block">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white">
-                  <Settings className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Control Panel</p>
-                  <p className="text-xl font-black text-slate-900">Fully Customizable</p>
-                </div>
-              </div>
-            </div>
           </div>
-          
           <div className="order-1 lg:order-2">
             <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 tracking-tighter leading-tight">
               Fully Customizable <br />
               <span className="text-blue-600">Admin Panel.</span>
             </h2>
             <p className="text-xl text-slate-500 mb-10 leading-relaxed font-medium">
-              Take full control of your ecosystem. Our admin panel is designed to be fully customizable, allowing you to add features and modify workflows as per your specific business needs.
+              Take full control of your ecosystem. Our admin panel is designed to be fully customizable to your business needs.
             </p>
             <div className="space-y-6">
-              {[
-                'Real-time data visualization',
-                'User & Merchant management',
-                'Custom feature integration',
-                'Automated reporting & analytics'
-              ].map((item, i) => (
+              {['Real-time data visualization', 'User & Merchant management', 'Custom feature integration', 'Automated reporting'].map((item, i) => (
                 <div key={i} className="flex items-center gap-4">
                   <div className="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
                     <CheckCircle2 className="w-4 h-4" />
@@ -283,50 +239,6 @@ const AdminSection = () => {
                 </div>
               ))}
             </div>
-            <button className="mt-12 bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 cursor-pointer">
-              Explore Admin Features
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const PortfolioSection = () => {
-  return (
-    <section className="py-32 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Our Portfolio Showcase</h2>
-            <p className="text-xl text-slate-500 mb-10 leading-relaxed font-medium">
-              See how EduZap transforms businesses. From small startups to large enterprises, our ecosystem provides the scalability and reliability you need.
-            </p>
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-              <p className="text-lg font-bold text-slate-900 mb-4 italic">"EduZap has completely changed how we manage our delivery fleet. The 3-app system is seamless."</p>
-              <div className="flex items-center gap-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100" 
-                  alt="Business Owner" 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-blue-100"
-                  referrerPolicy="no-referrer"
-                />
-                <div>
-                  <p className="font-bold text-slate-900">Business Owner</p>
-                  <p className="text-sm text-slate-500">Logistics Solutions</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="relative">
-            <div className="absolute -inset-4 bg-blue-600/10 rounded-[3rem] blur-2xl"></div>
-            <img 
-              src="https://aotbiz.com/images/portfolio/portfolio.jpg" 
-              alt="Portfolio Showcase" 
-              className="relative rounded-[2.5rem] shadow-2xl w-full object-cover"
-              referrerPolicy="no-referrer"
-            />
           </div>
         </div>
       </div>
@@ -336,44 +248,23 @@ const PortfolioSection = () => {
 
 const FeatureGrid = () => {
   const features = [
-    {
-      title: 'Scalable Architecture',
-      desc: 'Built to grow with your business. Handle thousands of orders without breaking a sweat.',
-      icon: Layout
-    },
-    {
-      title: 'Cross-Platform Support',
-      desc: 'Available on all 3 web pages and mobile platforms for maximum reach.',
-      icon: Monitor
-    },
-    {
-      title: 'Secure & Reliable',
-      desc: 'Enterprise-grade security to protect your data and your users.',
-      icon: ShieldCheck
-    },
-    {
-      title: 'Customizable Workflows',
-      desc: 'Add or remove features per your need with our modular design.',
-      icon: Settings
-    }
+    { title: 'Scalable Architecture', desc: 'Built to grow with your business.', icon: Layout },
+    { title: 'Cross-Platform', desc: 'Web and Mobile apps included.', icon: Monitor },
+    { title: 'Secure & Reliable', desc: 'Enterprise-grade security.', icon: ShieldCheck },
+    { title: 'Customizable', desc: 'Modular design to fit your needs.', icon: Settings }
   ];
 
   return (
-    <section id="features" className="py-32 bg-slate-900 text-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.1),transparent_50%)]"></div>
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">Built for Performance</h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">The technical foundation you need to dominate your market.</p>
-        </div>
+    <section id="features" className="py-32 bg-slate-900 text-white relative">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((f, i) => (
-            <div key={i} className="p-8 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all">
+            <div key={i} className="p-8 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-sm">
               <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mb-6">
                 <f.icon className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-xl font-bold mb-4">{f.title}</h3>
-              <p className="text-slate-400 leading-relaxed text-sm font-medium">{f.desc}</p>
+              <p className="text-slate-400 leading-relaxed text-sm">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -382,66 +273,106 @@ const FeatureGrid = () => {
   );
 };
 
-const CTASection = () => {
+const CTASection = ({ onOpenForm }) => {
   return (
     <section className="py-40 px-4">
-      <div className="max-w-5xl mx-auto bg-blue-600 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-blue-200">
+      <div className="max-w-5xl mx-auto bg-blue-600 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
         <div className="relative z-10">
           <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none">
-            Ready to Launch <br />
-            <span className="text-blue-200 italic font-serif font-normal">Your Ecosystem?</span>
+            Ready to Launch?
           </h2>
-          <p className="text-blue-100 text-xl mb-12 max-w-2xl mx-auto font-medium">
-            Get the 3-app ecosystem and customizable admin panel today. Start building your future with EduZap.
+          <p className="text-blue-100 text-xl mb-12 max-w-2xl mx-auto">
+            Get the 3-app ecosystem and customizable admin panel today.
           </p>
-          <button className="bg-white text-blue-600 px-12 py-6 rounded-2xl font-black text-2xl hover:bg-blue-50 hover:scale-105 transition-all shadow-2xl cursor-pointer">
+          <button 
+            onClick={onOpenForm}
+            className="bg-white text-blue-600 px-12 py-6 rounded-2xl font-black text-2xl hover:bg-blue-50 hover:scale-105 transition-all cursor-pointer"
+          >
             Get Started Now
           </button>
         </div>
-        {/* Background glow */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/20 rounded-full blur-[100px]" />
       </div>
     </section>
   );
 };
 
-const Footer = () => {
+// MODAL COMPONENT (The Popup)
+const FormModal = ({ isOpen, onClose }) => {
   return (
-    <footer className="py-20 border-t border-slate-100 bg-white">
-      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-12">
-        <div className="flex items-center gap-2">
-          <div className="bg-blue-600 p-2 rounded-xl">
-            <Zap className="w-6 h-6 text-white" />
-          </div>
-          <span className="text-2xl font-black tracking-tighter text-slate-900">EduZap</span>
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Overlay Background */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+          />
+          
+          {/* Modal Content */}
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="relative bg-white w-full max-w-4xl h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col"
+          >
+            {/* Header with Close Button */}
+            <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-white">
+              <span className="font-bold text-slate-900 ml-4">Business Inquiry Form</span>
+              <button 
+                onClick={onClose}
+                className="p-2 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+              >
+                <X className="w-6 h-6 text-slate-500" />
+              </button>
+            </div>
+
+            {/* Google Form Iframe */}
+            <div className="flex-1 w-full overflow-hidden">
+              <iframe 
+                src={GOOGLE_FORM_URL}
+                className="w-full h-full"
+                frameBorder="0" 
+                marginHeight="0" 
+                marginWidth="0"
+                title="Google Form"
+              >
+                Loading…
+              </iframe>
+            </div>
+          </motion.div>
         </div>
-        <p className="text-slate-400 font-medium">
-          © {new Date().getFullYear()} EduZap Ecosystem. All rights reserved.
-        </p>
-        <div className="flex items-center gap-10 text-sm font-bold text-slate-900">
-          <a href="#" className="hover:text-blue-600 transition-colors">Privacy</a>
-          <a href="#" className="hover:text-blue-600 transition-colors">Terms</a>
-          <a href="#" className="hover:text-blue-600 transition-colors">Contact</a>
-        </div>
-      </div>
-    </footer>
+      )}
+    </AnimatePresence>
   );
 };
 
 export default function App() {
+  const [isFormOpen, setIsFormOpen] = React.useState(false);
+
+  const openForm = () => setIsFormOpen(true);
+  const closeForm = () => setIsFormOpen(false);
+
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
-      <Navbar />
+    <div className="min-h-screen bg-white font-sans text-slate-900">
+      <Navbar onOpenForm={openForm} />
       <main>
-        <Hero />
+        <Hero onOpenForm={openForm} />
         <EcosystemSection />
         <AdminSection />
-        <PortfolioSection />
         <FeatureGrid />
-        <CTASection />
+        <CTASection onOpenForm={openForm} />
       </main>
-      <Footer />
+      
+      {/* Footer */}
+      <footer className="py-20 border-t border-slate-100 text-center">
+        <p className="text-slate-400 font-medium">© {new Date().getFullYear()} Biz-e-comm Ecosystem.</p>
+      </footer>
+
+      {/* Popup Form */}
+      <FormModal isOpen={isFormOpen} onClose={closeForm} />
     </div>
   );
 }
